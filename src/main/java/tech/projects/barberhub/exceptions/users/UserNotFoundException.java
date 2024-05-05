@@ -1,4 +1,4 @@
-package tech.projects.barberhub.constants.responses.exceptions.users;
+package tech.projects.barberhub.exceptions.users;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message) {

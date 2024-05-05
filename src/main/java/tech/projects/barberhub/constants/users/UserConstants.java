@@ -1,4 +1,4 @@
-package tech.projects.barberhub.constants.responses.users;
+package tech.projects.barberhub.constants.users;
 
 public class UserConstants {
     private UserConstants() {

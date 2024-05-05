@@ -11,8 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import tech.projects.barberhub.constants.responses.exceptions.users.UserNotFoundException;
-import tech.projects.barberhub.constants.responses.users.UserConstants;
+import tech.projects.barberhub.exceptions.users.UserNotFoundException;
+import tech.projects.barberhub.constants.users.UserConstants;
 import tech.projects.barberhub.model.entities.user.User;
 import tech.projects.barberhub.repositories.UserRepository;
 
@@ -33,13 +33,13 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
         var emailFromJWT = tokenService.getEmailFromJWT(token);
-        if(emailFromJWT != null){
-            User user = userRepository.findByEmail(emailFromJWT).orElseThrow(() -> new UserNotFoundException(UserConstants.NOT_FOUND + emailFromJWT));
-            String role = tokenService.getRoleFromJWT(token);
-            List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
+
+        User user = userRepository.findByEmail(emailFromJWT).orElseThrow(() -> new UserNotFoundException(UserConstants.NOT_FOUND + emailFromJWT));
+        String role = tokenService.getRoleFromJWT(token);
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
+        var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         filterChain.doFilter(request, response);
     }
 

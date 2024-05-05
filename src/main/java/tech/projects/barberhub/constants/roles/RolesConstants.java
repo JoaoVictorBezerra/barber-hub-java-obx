@@ -1,4 +1,4 @@
-package tech.projects.barberhub.constants.responses.roles;
+package tech.projects.barberhub.constants.roles;
 
 public class RolesConstants {
 

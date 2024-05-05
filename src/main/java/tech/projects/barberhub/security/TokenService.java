@@ -7,6 +7,8 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import tech.projects.barberhub.constants.authentication.AuthenticationConstants;
+import tech.projects.barberhub.exceptions.security.InvalidTokenException;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -16,12 +18,13 @@ import java.time.ZoneOffset;
 public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
+
     public String generateToken(String subject, String role){
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
             return JWT.create()
-                    .withIssuer("auth")
+                    .withIssuer("barber")
                     .withSubject(subject)
                     .withExpiresAt(this.generateExpirationDate())
                     .withClaim("role", role)
@@ -35,12 +38,12 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
-                    .withIssuer("auth")
+                    .withIssuer("barber")
                     .build()
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException exception) {
-            return null;
+            throw new InvalidTokenException("Invalid token");
         }
     }
 
@@ -48,7 +51,7 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             Claim claim = JWT.require(algorithm)
-                    .withIssuer("auth")
+                    .withIssuer("barber")
                     .build()
                     .verify(token)
                     .getClaim("role");
