@@ -1,4 +1,4 @@
-package tech.projects.barberhub.constants.responses.api;
+package tech.projects.barberhub.constants.authentication;
 
 public class AuthenticationConstants {
 
@@ -9,4 +9,6 @@ public class AuthenticationConstants {
     public static final String CREATED = "User registered successful!";
 
     public static final String WRONG_EMAIL_OR_PASSWORD = "Wrong email or password. Verify your data!";
+
+    public static final String ISSUER = "barber";
 }

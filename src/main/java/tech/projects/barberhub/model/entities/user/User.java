@@ -2,6 +2,8 @@ package tech.projects.barberhub.model.entities.user;
 
 import jakarta.persistence.*;
 
+import java.time.Instant;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -11,19 +13,27 @@ public class User {
     private String id;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = true)
+    private String birthday;
+    @Column(nullable = false, name = "created_at")
+    private Instant createdAt;
+    @Column(name = "updated_at")
+    private Instant updatedAt;
     @Column(nullable = false)
     private UserRole role;
 
-
-    public User(String id, String name, String email, String password, UserRole role) {
+    public User(String id, String name, String email, String password, String birthday, Instant createdAt, Instant updatedAt, UserRole role) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.birthday = birthday;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.role = role;
     }
 
@@ -66,7 +76,32 @@ public class User {
         return role;
     }
 
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 }

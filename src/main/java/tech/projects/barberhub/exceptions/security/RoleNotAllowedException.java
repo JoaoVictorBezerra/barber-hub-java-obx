@@ -1,4 +1,4 @@
-package tech.projects.barberhub.constants.responses.exceptions.security;
+package tech.projects.barberhub.exceptions.security;
 
 public class RoleNotAllowedException extends RuntimeException {
     public RoleNotAllowedException(String message) {

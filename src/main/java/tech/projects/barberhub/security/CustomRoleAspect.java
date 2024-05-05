@@ -4,8 +4,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import tech.projects.barberhub.constants.responses.exceptions.security.RoleNotAllowedException;
-import tech.projects.barberhub.constants.responses.roles.RolesConstants;
+import tech.projects.barberhub.exceptions.security.RoleNotAllowedException;
+import tech.projects.barberhub.constants.roles.RolesConstants;
 import tech.projects.barberhub.security.annotations.HasAdminRole;
 
 @Aspect
