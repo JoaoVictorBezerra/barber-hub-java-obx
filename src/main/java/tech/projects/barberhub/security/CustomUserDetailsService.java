@@ -5,8 +5,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import tech.projects.barberhub.exceptions.users.UserNotFoundException;
-import tech.projects.barberhub.repositories.UserRepository;
-import tech.projects.barberhub.model.entities.user.User;
+import tech.projects.barberhub.repository.UserRepository;
+import tech.projects.barberhub.model.entity.user.User;
 
 import java.util.ArrayList;
 

@@ -7,8 +7,8 @@ import tech.projects.barberhub.dto.authentication.RequestLoginDTO;
 import tech.projects.barberhub.dto.authentication.RequestRegisterDTO;
 import tech.projects.barberhub.dto.authentication.ResponseLoginDTO;
 import tech.projects.barberhub.exceptions.security.IncorrectPasswordOrEmailException;
-import tech.projects.barberhub.model.entities.user.User;
-import tech.projects.barberhub.model.entities.user.UserRole;
+import tech.projects.barberhub.model.entity.user.User;
+import tech.projects.barberhub.model.entity.user.UserRole;
 import tech.projects.barberhub.security.TokenService;
 
 import java.time.Instant;

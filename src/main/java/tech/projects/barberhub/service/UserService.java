@@ -5,8 +5,8 @@ import tech.projects.barberhub.dto.user.ResponseUserDTO;
 import tech.projects.barberhub.exceptions.users.UserAlreadyRegisteredException;
 import tech.projects.barberhub.exceptions.users.UserNotFoundException;
 import tech.projects.barberhub.constants.users.UserConstants;
-import tech.projects.barberhub.model.entities.user.User;
-import tech.projects.barberhub.repositories.UserRepository;
+import tech.projects.barberhub.model.entity.user.User;
+import tech.projects.barberhub.repository.UserRepository;
 
 @Service
 public class UserService {

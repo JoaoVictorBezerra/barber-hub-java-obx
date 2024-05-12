@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import tech.projects.barberhub.exceptions.users.UserNotFoundException;
 import tech.projects.barberhub.constants.users.UserConstants;
-import tech.projects.barberhub.model.entities.user.User;
-import tech.projects.barberhub.repositories.UserRepository;
+import tech.projects.barberhub.model.entity.user.User;
+import tech.projects.barberhub.repository.UserRepository;
 
 import java.io.IOException;
 import java.util.List;

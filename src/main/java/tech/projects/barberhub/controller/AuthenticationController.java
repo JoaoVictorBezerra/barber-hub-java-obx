@@ -17,17 +17,14 @@ import java.net.URI;
 @RequestMapping(Routes.AUTHENTICATION)
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
-
     public AuthenticationController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
-
     @PostMapping
     public ResponseEntity<ResponseLoginDTO> login(@RequestBody RequestLoginDTO body) {
         ResponseLoginDTO response = authenticationService.login(body);
         return ResponseEntity.ok(response);
     }
-
     @PostMapping("/register")
     public ResponseEntity<ResponseLoginDTO> register(@RequestBody RequestRegisterDTO body) {
         String userId = authenticationService.register(body);
