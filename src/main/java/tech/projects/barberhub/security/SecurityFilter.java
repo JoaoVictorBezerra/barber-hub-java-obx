@@ -32,14 +32,15 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
-        var emailFromJWT = tokenService.getEmailFromJWT(token);
+        if(token != null && token.isEmpty()){
+            var emailFromJWT = tokenService.getEmailFromJWT(token);
+            User user = userRepository.findByEmail(emailFromJWT).orElseThrow(() -> new UserNotFoundException(UserConstants.NOT_FOUND + emailFromJWT));
+            String role = tokenService.getRoleFromJWT(token);
+            List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
+            var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        User user = userRepository.findByEmail(emailFromJWT).orElseThrow(() -> new UserNotFoundException(UserConstants.NOT_FOUND + emailFromJWT));
-        String role = tokenService.getRoleFromJWT(token);
-        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
-        var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
+        }
         filterChain.doFilter(request, response);
     }
 

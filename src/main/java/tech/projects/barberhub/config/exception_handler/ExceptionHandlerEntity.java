@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import tech.projects.barberhub.exceptions.security.IncorrectPasswordOrEmailException;
 import tech.projects.barberhub.exceptions.security.InvalidTokenException;
 import tech.projects.barberhub.exceptions.security.RoleNotAllowedException;
+import tech.projects.barberhub.exceptions.services.ServiceAlreadyRegisteredException;
 import tech.projects.barberhub.exceptions.users.UserAlreadyRegisteredException;
 import tech.projects.barberhub.exceptions.users.UserNotFoundException;
 import tech.projects.barberhub.dto.DefaultErrorDTO;
@@ -38,5 +39,10 @@ public class ExceptionHandlerEntity {
     @ExceptionHandler(InvalidTokenException.class)
     public ResponseEntity<DefaultErrorDTO> handleInvalidToken(InvalidTokenException exception){
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new DefaultErrorDTO(exception.getMessage(), Instant.now()));
+    }
+
+    @ExceptionHandler(ServiceAlreadyRegisteredException.class)
+    public ResponseEntity<DefaultErrorDTO> handleServiceAlreadyExists(ServiceAlreadyRegisteredException exception){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new DefaultErrorDTO(exception.getMessage(), Instant.now()));
     }
 }

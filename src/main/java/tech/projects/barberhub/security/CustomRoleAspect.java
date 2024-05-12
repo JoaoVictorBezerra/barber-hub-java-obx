@@ -14,13 +14,13 @@ public class CustomRoleAspect {
 
     @Before("@annotation(hasAdminRole)")
     public void checkHasAdminRole(HasAdminRole hasAdminRole) {
-        if (hasRole(RolesConstants.ADMIN)) {
+        if (!hasRole(RolesConstants.ADMIN)) {
             throw new RoleNotAllowedException("Only administrators can do this request");
         }
     }
 
     private boolean hasRole(String role) {
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
-                .noneMatch(authority -> authority.getAuthority().equals(role));
+                .anyMatch(authority -> authority.getAuthority().equals(role));
     }
 }
