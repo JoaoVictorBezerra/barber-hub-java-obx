@@ -8,5 +8,6 @@ public class Routes {
     public static final String AUTHENTICATION = "/api/auth";
     public static final String USERS = "/api/users";
     public static final String SERVICES = "/api/services";
+    public static final String BARBERSHOP = "/api/barbershop";
 
 }
