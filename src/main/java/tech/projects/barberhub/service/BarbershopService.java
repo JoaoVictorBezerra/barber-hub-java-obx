@@ -25,6 +25,7 @@ public class BarbershopService {
         this.catalogService = catalogService;
     }
 
+    // TODO: Refatorar com mappers.
     public List<BarbershopDTO> getBarberShops() {
         List<Barbershop> barbershopList = barbershopRepository.findAll();
         return barbershopList.stream().map(barbershop ->
