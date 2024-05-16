@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface CatalogRepository extends JpaRepository<Catalog, String> {
     Optional<Catalog> findServicesByName(String name);
+
+    Optional<Catalog> findCatalogBySlug(String slug);
 }

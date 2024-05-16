@@ -7,9 +7,12 @@ import java.util.List;
 public record BarbershopDTO(
         String id,
         String name,
+        String slug,
         String address,
         String description,
         String contact,
-        List<BarbershopCatalogDTO> services
+        List<BarbershopCatalogDTO> services,
+        Instant createdAt,
+        Instant updatedAt
 ) {
 }

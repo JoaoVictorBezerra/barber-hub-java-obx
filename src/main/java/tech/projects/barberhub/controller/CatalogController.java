@@ -23,7 +23,7 @@ public class CatalogController {
     }
     @PostMapping("/service")
     public ResponseEntity<DefaultResponseDTO> createService(@RequestBody CreateServiceDTO body) {
-        String serviceId = catalogService.createService(body.name(), body.description(), body.price());
+        String serviceId = catalogService.createService(body);
         return ResponseEntity.created(URI.create("/api/services/" + serviceId)).body(new DefaultResponseDTO(CatalogConstants.CREATED, Instant.now()));
     }
     @GetMapping

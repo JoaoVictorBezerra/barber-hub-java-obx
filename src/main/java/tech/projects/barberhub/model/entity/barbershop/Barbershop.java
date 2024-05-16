@@ -3,6 +3,7 @@ package tech.projects.barberhub.model.entity.barbershop;
 import jakarta.persistence.*;
 import tech.projects.barberhub.model.entity.barbershop_catalog.BarbershopCatalog;
 
+import java.time.Instant;
 import java.util.List;
 
 @Entity(name = "barbershop")
@@ -16,6 +17,9 @@ public class Barbershop {
     private String name;
 
     @Column(nullable = false)
+    private String slug;
+
+    @Column(nullable = false)
     private String address;
 
     @Column(nullable = false)
@@ -24,17 +28,25 @@ public class Barbershop {
     @Column(nullable = false)
     private String contact;
 
-
     @OneToMany(mappedBy = "barberShop")
     private List<BarbershopCatalog> services;
 
-    public Barbershop(String id, String name, String address, String description, String contact, List<BarbershopCatalog> services) {
+    @Column(nullable = false, name = "created_at")
+    private Instant createdAt;
+
+    @Column(name = "updated_at")
+    private Instant updatedAt;
+
+    public Barbershop(String id, String name, String slug, String address, String description, String contact, List<BarbershopCatalog> services, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.name = name;
+        this.slug = slug;
         this.address = address;
         this.description = description;
         this.contact = contact;
         this.services = services;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Barbershop() {
@@ -86,5 +98,29 @@ public class Barbershop {
 
     public void setServices(List<BarbershopCatalog> services) {
         this.services = services;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 }
