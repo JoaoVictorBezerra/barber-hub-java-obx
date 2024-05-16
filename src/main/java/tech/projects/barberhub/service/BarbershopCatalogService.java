@@ -13,7 +13,7 @@ public class BarbershopCatalogService {
     private final BarbershopCatalogRepository barberShopCatalogRepository;
 
     BarbershopCatalogMapper barbershopCatalogMapper = new BarbershopCatalogMapper();
-
+  
     public BarbershopCatalogService(BarbershopCatalogRepository barberShopCatalogRepository) {
         this.barberShopCatalogRepository = barberShopCatalogRepository;
     }

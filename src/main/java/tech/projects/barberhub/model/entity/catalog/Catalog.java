@@ -66,7 +66,7 @@ public class Catalog {
     public void setSlug(String slug) {
         this.slug = slug;
     }
-
+  
     public String getDescription() {
         return description;
     }

@@ -2,6 +2,7 @@ package tech.projects.barberhub.service;
 
 import org.springframework.stereotype.Service;
 import tech.projects.barberhub.constants.catalog.CatalogConstants;
+
 import tech.projects.barberhub.dto.catalog.CreateServiceDTO;
 import tech.projects.barberhub.exceptions.catalog.ServiceAlreadyRegisteredException;
 import tech.projects.barberhub.exceptions.catalog.ServiceNotFoundException;
@@ -17,7 +18,7 @@ public class CatalogService {
     private final CatalogRepository catalogRepository;
 
     CatalogMapper catalogMapper = new CatalogMapper();
-
+  
     public CatalogService(CatalogRepository catalogRepository) {
         this.catalogRepository = catalogRepository;
     }

@@ -9,7 +9,6 @@ import tech.projects.barberhub.mappers.barbershop.BarbershopMapper;
 import tech.projects.barberhub.model.entity.barbershop.Barbershop;
 import tech.projects.barberhub.model.entity.catalog.Catalog;
 import tech.projects.barberhub.repository.BarbershopRepository;
-
 import java.util.List;
 
 @Service
@@ -17,6 +16,7 @@ public class BarbershopService {
     private final BarbershopRepository barbershopRepository;
     private final BarbershopCatalogService barberShopCatalogService;
     private final CatalogService catalogService;
+
     BarbershopMapper barbershopMapper = new BarbershopMapper();
 
     public BarbershopService(BarbershopRepository barbershopRepository, BarbershopCatalogService barberShopCatalogService, CatalogService catalogService) {

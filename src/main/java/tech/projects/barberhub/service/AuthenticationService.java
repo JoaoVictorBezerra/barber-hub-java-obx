@@ -19,7 +19,7 @@ public class AuthenticationService {
     private final TokenService tokenService;
 
     UserMapper userMapper = new UserMapper();
-
+  
     public AuthenticationService(UserService userService, PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
