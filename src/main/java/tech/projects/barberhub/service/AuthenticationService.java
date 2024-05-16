@@ -7,17 +7,18 @@ import tech.projects.barberhub.dto.authentication.RequestLoginDTO;
 import tech.projects.barberhub.dto.authentication.RequestRegisterDTO;
 import tech.projects.barberhub.dto.authentication.ResponseLoginDTO;
 import tech.projects.barberhub.exceptions.security.IncorrectPasswordOrEmailException;
+import tech.projects.barberhub.mappers.user.UserMapper;
 import tech.projects.barberhub.model.entity.user.User;
 import tech.projects.barberhub.model.entity.user.UserRole;
 import tech.projects.barberhub.security.TokenService;
-
-import java.time.Instant;
 
 @Service
 public class AuthenticationService {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
+
+    UserMapper userMapper = new UserMapper();
 
     public AuthenticationService(UserService userService, PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.userService = userService;
@@ -26,14 +27,7 @@ public class AuthenticationService {
     }
 
     public String register(RequestRegisterDTO registerUserDTO) {
-        User userEntity = new User();
-        userEntity.setName(registerUserDTO.name());
-        userEntity.setEmail(registerUserDTO.email());
-        userEntity.setPassword(passwordEncoder.encode(registerUserDTO.password()));
-        userEntity.setBirthday(null);
-        userEntity.setCreatedAt(Instant.now());
-        userEntity.setUpdatedAt(null);
-        userEntity.setRole(UserRole.USER);
+        User userEntity = userMapper.toEntity(registerUserDTO, passwordEncoder.encode(registerUserDTO.password()), UserRole.USER);
         userService.saveUser(userEntity);
         return userEntity.getId();
     }

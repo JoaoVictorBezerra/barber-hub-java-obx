@@ -9,7 +9,6 @@ import tech.projects.barberhub.dto.DefaultResponseDTO;
 import tech.projects.barberhub.dto.barbershop.AddServiceOnBarbershopDTO;
 import tech.projects.barberhub.dto.barbershop.BarbershopDTO;
 import tech.projects.barberhub.dto.barbershop.CreateBarbershopDTO;
-import tech.projects.barberhub.model.entity.barbershop.Barbershop;
 import tech.projects.barberhub.service.BarbershopService;
 
 import java.net.URI;
@@ -27,7 +26,7 @@ public class BarbershopController {
 
     @PostMapping
     public ResponseEntity<DefaultResponseDTO> createBarbershop(@RequestBody CreateBarbershopDTO body) {
-        String barbershopId = barberShopService.createBarberShop(body.name(), body.description(), body.address(), body.contact());
+        String barbershopId = barberShopService.createBarberShop(body);
         return ResponseEntity.created(URI.create("/api/barbershop/" + barbershopId)).body(new DefaultResponseDTO(BarbershopConstants.CREATED, Instant.now()));
     }
 
