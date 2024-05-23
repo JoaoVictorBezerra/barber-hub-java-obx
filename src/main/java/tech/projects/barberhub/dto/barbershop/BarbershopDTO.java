@@ -2,6 +2,7 @@ package tech.projects.barberhub.dto.barbershop;
 
 import tech.projects.barberhub.dto.barbershop_catalog.BarbershopCatalogDTO;
 
+import java.time.Instant;
 import java.util.List;
 
 public record BarbershopDTO(
