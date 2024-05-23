@@ -7,7 +7,6 @@ import tech.projects.barberhub.helpers.StringHelpers;
 import tech.projects.barberhub.model.entity.barbershop.Barbershop;
 import tech.projects.barberhub.model.entity.barbershop_catalog.BarbershopCatalog;
 
-import java.text.Normalizer;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -18,6 +17,7 @@ public final class BarbershopMapper {
                 barbershop.getId(),
                 barbershop.getName(),
                 barbershop.getSlug(),
+                barbershop.getImageUrl(),
                 barbershop.getAddress(),
                 barbershop.getDescription(),
                 barbershop.getContact(),
@@ -32,6 +32,7 @@ public final class BarbershopMapper {
                 UUID.randomUUID().toString(),
                 dto.name(),
                 StringHelpers.createSlug(dto.name()),
+                dto.imageUrl(),
                 dto.address(),
                 dto.description(),
                 dto.contact(),
@@ -51,6 +52,7 @@ public final class BarbershopMapper {
         barbershop.setId(entity.getId());
         barbershop.setName(dto.name());
         barbershop.setSlug(StringHelpers.createSlug(dto.name()));
+        barbershop.setImageUrl(dto.imageUrl());
         barbershop.setAddress(dto.address());
         barbershop.setDescription(dto.description());
         barbershop.setContact(dto.contact());
