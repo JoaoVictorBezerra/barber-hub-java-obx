@@ -13,6 +13,7 @@ public final class CatalogMapper {
                 UUID.randomUUID().toString(),
                 dto.name(),
                 StringHelpers.createSlug(dto.name()),
+                dto.imageUrl(),
                 dto.description(),
                 dto.price(),
                 Instant.now(),
