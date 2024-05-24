@@ -1,5 +1,6 @@
 package tech.projects.barberhub.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(response);
     }
     @PostMapping("/register")
-    public ResponseEntity<ResponseLoginDTO> register(@RequestBody RequestRegisterDTO body) {
+    public ResponseEntity<ResponseLoginDTO> register(@Valid @RequestBody RequestRegisterDTO body) {
         String userId = authenticationService.register(body);
         return ResponseEntity.created(URI.create("/api/users/" + userId)).build();
     }
