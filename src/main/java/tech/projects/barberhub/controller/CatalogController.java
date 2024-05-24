@@ -1,6 +1,7 @@
 package tech.projects.barberhub.controller;
 
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.projects.barberhub.constants.api.Routes;
@@ -22,7 +23,7 @@ public class CatalogController {
         this.catalogService = catalogService;
     }
     @PostMapping("/service")
-    public ResponseEntity<DefaultResponseDTO> createService(@RequestBody CreateServiceDTO body) {
+    public ResponseEntity<DefaultResponseDTO> createService(@Valid @RequestBody CreateServiceDTO body) {
         String serviceId = catalogService.createService(body);
         return ResponseEntity.created(URI.create("/api/services/" + serviceId)).body(new DefaultResponseDTO(CatalogConstants.CREATED, Instant.now()));
     }
