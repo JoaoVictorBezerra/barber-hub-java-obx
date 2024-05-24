@@ -1,6 +1,9 @@
 package tech.projects.barberhub.dto.barbershop;
 
+import jakarta.validation.constraints.NotBlank;
+import tech.projects.barberhub.constants.validations.ValidationsConstants;
+
 public record AddServiceOnBarbershopDTO(
-        String serviceId
+        @NotBlank(message = ValidationsConstants.ID_BLANK) String serviceId
 ) {
 }

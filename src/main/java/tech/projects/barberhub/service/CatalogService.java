@@ -30,6 +30,14 @@ public class CatalogService {
         return catalogRepository.findById(id).orElseThrow(() -> new ServiceNotFoundException(CatalogConstants.NOT_FOUND));
     }
 
+    public void deleteService(String id) {
+        boolean exists = existsById(id);
+        if(!exists) {
+            throw new ServiceNotFoundException(CatalogConstants.NOT_FOUND);
+        }
+        catalogRepository.deleteById(id);
+    }
+
     public String createService(CreateServiceDTO createServiceDTO) {
         boolean alreadyExist = serviceAlreadyExistsByName(createServiceDTO.name());
         if(alreadyExist) {
@@ -46,5 +54,9 @@ public class CatalogService {
 
     private boolean serviceAlreadyExistsBySlug(String name){
         return catalogRepository.findCatalogBySlug(StringHelpers.createSlug(name)).isPresent();
+    }
+
+    private boolean existsById(String id){
+        return catalogRepository.findById(id).isPresent();
     }
 }

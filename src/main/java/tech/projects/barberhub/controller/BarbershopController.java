@@ -1,6 +1,7 @@
 package tech.projects.barberhub.controller;
 
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.projects.barberhub.constants.api.Routes;
@@ -25,7 +26,7 @@ public class BarbershopController {
     }
 
     @PostMapping
-    public ResponseEntity<DefaultResponseDTO> createBarbershop(@RequestBody CreateBarbershopDTO body) {
+    public ResponseEntity<DefaultResponseDTO> createBarbershop(@Valid @RequestBody CreateBarbershopDTO body) {
         String barbershopId = barberShopService.createBarberShop(body);
         return ResponseEntity.created(URI.create("/api/barbershop/" + barbershopId)).body(new DefaultResponseDTO(BarbershopConstants.CREATED, Instant.now()));
     }
@@ -37,7 +38,7 @@ public class BarbershopController {
     }
 
     @PostMapping("/{barbershopId}")
-    public ResponseEntity<DefaultResponseDTO> assignServiceToBarbershop(@PathVariable("barbershopId") String barbershopId,  @RequestBody AddServiceOnBarbershopDTO body) {
+    public ResponseEntity<DefaultResponseDTO> assignServiceToBarbershop(@PathVariable("barbershopId") String barbershopId, @Valid @RequestBody AddServiceOnBarbershopDTO body) {
         barberShopService.assignServiceToBarbershop(barbershopId, body.serviceId());
         return ResponseEntity.created(URI.create("/api/barbershop/" + barbershopId)).body(new DefaultResponseDTO(BarbershopConstants.CREATED, Instant.now()));
     }
