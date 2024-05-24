@@ -32,7 +32,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
-        if(token != null && token.isEmpty()){
+        if(token != null ){
             var emailFromJWT = tokenService.getEmailFromJWT(token);
             User user = userRepository.findByEmail(emailFromJWT).orElseThrow(() -> new UserNotFoundException(UserConstants.NOT_FOUND + emailFromJWT));
             String role = tokenService.getRoleFromJWT(token);
