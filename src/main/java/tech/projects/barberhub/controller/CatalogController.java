@@ -31,4 +31,9 @@ public class CatalogController {
         List<Catalog> catalog = catalogService.getAllServices();
         return ResponseEntity.ok().body(catalog);
     }
+    @DeleteMapping("/service/{serviceId}")
+    public ResponseEntity<DefaultResponseDTO> createService(@PathVariable("serviceId") String serviceId) {
+        catalogService.deleteService(serviceId);
+        return ResponseEntity.ok().body(new DefaultResponseDTO(CatalogConstants.DELETED, Instant.now()));
+    }
 }
