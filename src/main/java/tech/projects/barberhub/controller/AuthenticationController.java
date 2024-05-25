@@ -10,7 +10,7 @@ import tech.projects.barberhub.constants.api.Routes;
 import tech.projects.barberhub.dto.authentication.RequestLoginDTO;
 import tech.projects.barberhub.dto.authentication.RequestRegisterDTO;
 import tech.projects.barberhub.dto.authentication.ResponseLoginDTO;
-import tech.projects.barberhub.service.AuthenticationService;
+import tech.projects.barberhub.service.interfac.AuthenticationService;
 
 import java.net.URI;
 

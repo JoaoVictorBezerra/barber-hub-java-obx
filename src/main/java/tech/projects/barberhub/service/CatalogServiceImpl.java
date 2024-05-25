@@ -8,18 +8,19 @@ import tech.projects.barberhub.exceptions.catalog.ServiceAlreadyRegisteredExcept
 import tech.projects.barberhub.exceptions.catalog.ServiceNotFoundException;
 import tech.projects.barberhub.helpers.StringHelpers;
 import tech.projects.barberhub.mappers.catalog.CatalogMapper;
-import tech.projects.barberhub.model.entity.catalog.Catalog;
+import tech.projects.barberhub.model.catalog.Catalog;
 import tech.projects.barberhub.repository.CatalogRepository;
+import tech.projects.barberhub.service.interfac.CatalogService;
 
 import java.util.List;
 
 @Service
-public class CatalogService {
+public class CatalogServiceImpl implements CatalogService {
     private final CatalogRepository catalogRepository;
 
     CatalogMapper catalogMapper = new CatalogMapper();
   
-    public CatalogService(CatalogRepository catalogRepository) {
+    public CatalogServiceImpl(CatalogRepository catalogRepository) {
         this.catalogRepository = catalogRepository;
     }
 

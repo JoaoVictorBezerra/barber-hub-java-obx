@@ -4,8 +4,8 @@ import tech.projects.barberhub.dto.barbershop.BarbershopDTO;
 import tech.projects.barberhub.dto.barbershop.CreateBarbershopDTO;
 import tech.projects.barberhub.dto.barbershop_catalog.BarbershopCatalogDTO;
 import tech.projects.barberhub.helpers.StringHelpers;
-import tech.projects.barberhub.model.entity.barbershop.Barbershop;
-import tech.projects.barberhub.model.entity.barbershop_catalog.BarbershopCatalog;
+import tech.projects.barberhub.model.barbershop.Barbershop;
+import tech.projects.barberhub.model.barbershop_catalog.BarbershopCatalog;
 
 import java.time.Instant;
 import java.util.List;
@@ -68,6 +68,7 @@ public final class BarbershopMapper {
         return new BarbershopCatalogDTO(
                 barbershopCatalog.getServices().getName(),
                 barbershopCatalog.getServices().getDescription(),
+                barbershopCatalog.getServices().getImageUrl(),
                 barbershopCatalog.getServices().getPrice()
         );
     }

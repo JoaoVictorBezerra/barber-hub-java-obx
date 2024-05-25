@@ -2,7 +2,7 @@ package tech.projects.barberhub.mappers.catalog;
 
 import tech.projects.barberhub.dto.catalog.CreateServiceDTO;
 import tech.projects.barberhub.helpers.StringHelpers;
-import tech.projects.barberhub.model.entity.catalog.Catalog;
+import tech.projects.barberhub.model.catalog.Catalog;
 
 import java.time.Instant;
 import java.util.UUID;

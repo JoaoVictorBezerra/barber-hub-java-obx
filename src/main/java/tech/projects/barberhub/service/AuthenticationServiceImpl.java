@@ -8,19 +8,21 @@ import tech.projects.barberhub.dto.authentication.RequestRegisterDTO;
 import tech.projects.barberhub.dto.authentication.ResponseLoginDTO;
 import tech.projects.barberhub.exceptions.security.IncorrectPasswordOrEmailException;
 import tech.projects.barberhub.mappers.user.UserMapper;
-import tech.projects.barberhub.model.entity.user.User;
-import tech.projects.barberhub.model.entity.user.UserRole;
+import tech.projects.barberhub.model.user.User;
+import tech.projects.barberhub.model.user.UserRole;
 import tech.projects.barberhub.security.TokenService;
+import tech.projects.barberhub.service.interfac.AuthenticationService;
+import tech.projects.barberhub.service.interfac.UserService;
 
 @Service
-public class AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
     UserMapper userMapper = new UserMapper();
   
-    public AuthenticationService(UserService userService, PasswordEncoder passwordEncoder, TokenService tokenService) {
+    public AuthenticationServiceImpl(UserService userService, PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;

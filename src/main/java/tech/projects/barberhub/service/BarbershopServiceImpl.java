@@ -6,20 +6,24 @@ import tech.projects.barberhub.dto.barbershop.BarbershopDTO;
 import tech.projects.barberhub.dto.barbershop.CreateBarbershopDTO;
 import tech.projects.barberhub.exceptions.barbershop.BarbershopNotFoundException;
 import tech.projects.barberhub.mappers.barbershop.BarbershopMapper;
-import tech.projects.barberhub.model.entity.barbershop.Barbershop;
-import tech.projects.barberhub.model.entity.catalog.Catalog;
+import tech.projects.barberhub.model.barbershop.Barbershop;
+import tech.projects.barberhub.model.catalog.Catalog;
 import tech.projects.barberhub.repository.BarbershopRepository;
+import tech.projects.barberhub.service.interfac.BarbershopCatalogService;
+import tech.projects.barberhub.service.interfac.BarbershopService;
+import tech.projects.barberhub.service.interfac.CatalogService;
+
 import java.util.List;
 
 @Service
-public class BarbershopService {
+public class BarbershopServiceImpl implements BarbershopService {
     private final BarbershopRepository barbershopRepository;
     private final BarbershopCatalogService barberShopCatalogService;
     private final CatalogService catalogService;
 
     BarbershopMapper barbershopMapper = new BarbershopMapper();
 
-    public BarbershopService(BarbershopRepository barbershopRepository, BarbershopCatalogService barberShopCatalogService, CatalogService catalogService) {
+    public BarbershopServiceImpl(BarbershopRepository barbershopRepository, BarbershopCatalogService barberShopCatalogService, CatalogService catalogService) {
         this.barbershopRepository = barbershopRepository;
         this.barberShopCatalogService = barberShopCatalogService;
         this.catalogService = catalogService;

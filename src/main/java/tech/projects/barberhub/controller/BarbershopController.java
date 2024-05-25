@@ -11,7 +11,7 @@ import tech.projects.barberhub.dto.barbershop.AddServiceOnBarbershopDTO;
 import tech.projects.barberhub.dto.barbershop.BarbershopDTO;
 import tech.projects.barberhub.dto.barbershop.CreateBarbershopDTO;
 import tech.projects.barberhub.security.annotations.HasAdminRole;
-import tech.projects.barberhub.service.BarbershopService;
+import tech.projects.barberhub.service.interfac.BarbershopService;
 
 import java.net.URI;
 import java.time.Instant;
@@ -43,6 +43,6 @@ public class BarbershopController {
     @PostMapping("/{barbershopId}")
     public ResponseEntity<DefaultResponseDTO> assignServiceToBarbershop(@PathVariable("barbershopId") String barbershopId, @Valid @RequestBody AddServiceOnBarbershopDTO body) {
         barberShopService.assignServiceToBarbershop(barbershopId, body.serviceId());
-        return ResponseEntity.created(URI.create("/api/barbershop/" + barbershopId)).body(new DefaultResponseDTO(BarbershopConstants.CREATED, Instant.now()));
+        return ResponseEntity.created(URI.create("/api/barbershop/" + barbershopId)).body(new DefaultResponseDTO(BarbershopConstants.SERVICE_ASSIGNED, Instant.now()));
     }
 }

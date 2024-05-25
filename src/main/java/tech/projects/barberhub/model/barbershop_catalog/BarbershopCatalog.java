@@ -1,8 +1,8 @@
-package tech.projects.barberhub.model.entity.barbershop_catalog;
+package tech.projects.barberhub.model.barbershop_catalog;
 
 import jakarta.persistence.*;
-import tech.projects.barberhub.model.entity.barbershop.Barbershop;
-import tech.projects.barberhub.model.entity.catalog.Catalog;
+import tech.projects.barberhub.model.barbershop.Barbershop;
+import tech.projects.barberhub.model.catalog.Catalog;
 
 @Entity(name = "barbershop_catalog")
 @Table(name = "barbershop_catalog")
