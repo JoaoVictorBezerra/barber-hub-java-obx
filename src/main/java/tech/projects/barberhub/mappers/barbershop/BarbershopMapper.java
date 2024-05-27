@@ -42,13 +42,13 @@ public final class BarbershopMapper {
         );
     }
 
-    public Barbershop toEntityUpdate(BarbershopDTO dto, Barbershop entity) {
+    public Barbershop toEntityUpdate(CreateBarbershopDTO dto, Barbershop entity) {
         Barbershop barbershop = new Barbershop();
         updateFields(dto, entity, barbershop);
         return barbershop;
     }
 
-    private static void updateFields(BarbershopDTO dto, Barbershop entity, Barbershop barbershop) {
+    private static void updateFields(CreateBarbershopDTO dto, Barbershop entity, Barbershop barbershop) {
         barbershop.setId(entity.getId());
         barbershop.setName(dto.name());
         barbershop.setSlug(StringHelpers.createSlug(dto.name()));
@@ -56,11 +56,12 @@ public final class BarbershopMapper {
         barbershop.setAddress(dto.address());
         barbershop.setDescription(dto.description());
         barbershop.setContact(dto.contact());
+        barbershop.setServices(entity.getServices());
         barbershop.setCreatedAt(entity.getCreatedAt());
         barbershop.setUpdatedAt(Instant.now());
     }
 
-    private List<BarbershopCatalogDTO> toCatalogList(List<BarbershopCatalog> barbershopCatalog) {
+   private List<BarbershopCatalogDTO> toCatalogList(List<BarbershopCatalog> barbershopCatalog) {
         return barbershopCatalog.stream().map(this::toCatalogDTO).toList();
     }
 

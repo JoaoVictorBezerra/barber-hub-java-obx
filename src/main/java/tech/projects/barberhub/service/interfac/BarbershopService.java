@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface BarbershopService {
     List<BarbershopDTO> getBarberShops();
-    BarbershopDTO findBarbershopById(String id);
+    BarbershopDTO getBarbershopById(String id);
     String createBarberShop(CreateBarbershopDTO dto);
     void assignServiceToBarbershop(String barbershopId, String serviceId);
+    BarbershopDTO updateBarbershop(String barbershopId, CreateBarbershopDTO dto);
 }

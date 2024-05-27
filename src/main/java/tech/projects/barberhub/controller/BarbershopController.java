@@ -45,4 +45,11 @@ public class BarbershopController {
         barberShopService.assignServiceToBarbershop(barbershopId, body.serviceId());
         return ResponseEntity.created(URI.create("/api/barbershop/" + barbershopId)).body(new DefaultResponseDTO(BarbershopConstants.SERVICE_ASSIGNED, Instant.now()));
     }
+
+    @HasAdminRole
+    @PutMapping("/{barbershopId}")
+    public ResponseEntity<BarbershopDTO> updateBarbershop(@PathVariable("barbershopId") String barbershopId, @Valid @RequestBody CreateBarbershopDTO body) {
+        BarbershopDTO response = barberShopService.updateBarbershop(barbershopId, body);
+        return ResponseEntity.ok(response);
+    }
 }

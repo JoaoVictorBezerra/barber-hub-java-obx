@@ -29,6 +29,7 @@ public class BarbershopServiceImpl implements BarbershopService {
         this.catalogService = catalogService;
     }
 
+    @Override
     public List<BarbershopDTO> getBarberShops() {
         List<Barbershop> barbershopList = barbershopRepository.findAll();
         return barbershopList.stream().map(
@@ -36,24 +37,35 @@ public class BarbershopServiceImpl implements BarbershopService {
         ).toList();
     }
 
-    public BarbershopDTO findBarbershopById(String id) {
-        Barbershop barbershop = barbershopRepository.findById(id).orElseThrow(() -> new BarbershopNotFoundException(BarbershopConstants.NOT_FOUND));
+    @Override
+    public BarbershopDTO getBarbershopById(String id) {
+        Barbershop barbershop = findBarbershopById(id);
         return barbershopMapper.toDto(barbershop);
     }
 
+    @Override
     public String createBarberShop(CreateBarbershopDTO dto) {
         Barbershop barberShop = barbershopMapper.toEntity(dto);
         barbershopRepository.save(barberShop);
         return barberShop.getId();
     }
 
+    @Override
     public void assignServiceToBarbershop(String barbershopId, String serviceId) {
         Barbershop barbershop = barbershopRepository.findById(barbershopId).orElseThrow(() -> new BarbershopNotFoundException(BarbershopConstants.NOT_FOUND));
         Catalog catalog = catalogService.findServiceById(serviceId);
         barberShopCatalogService.addServiceToBarbershop(barbershop, catalog);
     }
 
-    private boolean verifyBarbershopExistence(String barbershopId) {
-        return barbershopRepository.findById(barbershopId).isPresent();
+    @Override
+    public BarbershopDTO updateBarbershop(String barbershopId, CreateBarbershopDTO dto) {
+        Barbershop entity = findBarbershopById(barbershopId);
+        Barbershop updatedEntity = barbershopMapper.toEntityUpdate(dto, entity);
+        barbershopRepository.save(updatedEntity);
+        return barbershopMapper.toDto(updatedEntity);
+    }
+
+    private Barbershop findBarbershopById(String id) {
+        return barbershopRepository.findById(id).orElseThrow(() -> new BarbershopNotFoundException(BarbershopConstants.NOT_FOUND));
     }
 }
