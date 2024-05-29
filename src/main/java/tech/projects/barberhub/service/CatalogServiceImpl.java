@@ -24,13 +24,16 @@ public class CatalogServiceImpl implements CatalogService {
         this.catalogRepository = catalogRepository;
     }
 
+    @Override
     public List<Catalog> getAllServices() {
         return catalogRepository.findAll();
     }
+    @Override
     public Catalog findServiceById(String id) {
         return catalogRepository.findById(id).orElseThrow(() -> new ServiceNotFoundException(CatalogConstants.NOT_FOUND));
     }
 
+    @Override
     public void deleteService(String id) {
         boolean exists = existsById(id);
         if(!exists) {
@@ -39,6 +42,7 @@ public class CatalogServiceImpl implements CatalogService {
         catalogRepository.deleteById(id);
     }
 
+    @Override
     public String createService(CreateServiceDTO createServiceDTO) {
         boolean alreadyExist = serviceAlreadyExistsByName(createServiceDTO.name());
         if(alreadyExist) {
@@ -49,12 +53,14 @@ public class CatalogServiceImpl implements CatalogService {
         return service.getId();
     }
 
-    private boolean serviceAlreadyExistsByName(String name){
-        return catalogRepository.findServicesByName(name).isPresent();
+    @Override
+    public Catalog updateCatalog(String serviceId, CreateServiceDTO dto) {
+        Catalog entity = findServiceById(serviceId);
+        return catalogMapper.toUpdateEntity(dto, entity);
     }
 
-    private boolean serviceAlreadyExistsBySlug(String name){
-        return catalogRepository.findCatalogBySlug(StringHelpers.createSlug(name)).isPresent();
+    private boolean serviceAlreadyExistsByName(String name){
+        return catalogRepository.findServicesByName(name).isPresent();
     }
 
     private boolean existsById(String id){

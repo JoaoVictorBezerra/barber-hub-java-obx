@@ -10,4 +10,6 @@ public interface CatalogService {
     Catalog findServiceById(String id);
     void deleteService(String id);
     String createService(CreateServiceDTO createServiceDTO);
+
+    Catalog updateCatalog(String serviceId, CreateServiceDTO dto);
 }
