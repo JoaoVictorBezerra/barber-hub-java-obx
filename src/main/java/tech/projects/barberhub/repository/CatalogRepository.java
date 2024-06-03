@@ -1,7 +1,7 @@
 package tech.projects.barberhub.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import tech.projects.barberhub.model.entity.catalog.Catalog;
+import tech.projects.barberhub.model.catalog.Catalog;
 
 import java.util.Optional;
 

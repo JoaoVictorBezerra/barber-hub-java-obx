@@ -1,4 +1,4 @@
-package tech.projects.barberhub.model.entity.user;
+package tech.projects.barberhub.model.user;
 
 import jakarta.persistence.*;
 

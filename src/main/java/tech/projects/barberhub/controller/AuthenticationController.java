@@ -10,7 +10,7 @@ import tech.projects.barberhub.constants.api.Routes;
 import tech.projects.barberhub.dto.authentication.RequestLoginDTO;
 import tech.projects.barberhub.dto.authentication.RequestRegisterDTO;
 import tech.projects.barberhub.dto.authentication.ResponseLoginDTO;
-import tech.projects.barberhub.service.AuthenticationService;
+import tech.projects.barberhub.service.interfac.AuthenticationService;
 
 import java.net.URI;
 
@@ -21,11 +21,13 @@ public class AuthenticationController {
     public AuthenticationController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
+
     @PostMapping
     public ResponseEntity<ResponseLoginDTO> login(@RequestBody RequestLoginDTO body) {
         ResponseLoginDTO response = authenticationService.login(body);
         return ResponseEntity.ok(response);
     }
+
     @PostMapping("/register")
     public ResponseEntity<ResponseLoginDTO> register(@Valid @RequestBody RequestRegisterDTO body) {
         String userId = authenticationService.register(body);

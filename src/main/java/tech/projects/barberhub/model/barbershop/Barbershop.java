@@ -1,16 +1,17 @@
-package tech.projects.barberhub.model.entity.catalog;
+package tech.projects.barberhub.model.barbershop;
 
 import jakarta.persistence.*;
+import tech.projects.barberhub.model.barbershop_catalog.BarbershopCatalog;
 
 import java.time.Instant;
+import java.util.List;
 
-@Entity(name = "catalog")
-@Table(name = "catalog")
-public class Catalog {
+@Entity(name = "barbershop")
+@Table(name = "barbershop")
+public class Barbershop {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "service_id")
-    private String serviceId;
+    private String id;
 
     @Column(nullable = false)
     private String name;
@@ -22,37 +23,45 @@ public class Catalog {
     private String imageUrl;
 
     @Column(nullable = false)
+    private String address;
+
+    @Column(nullable = false)
     private String description;
 
     @Column(nullable = false)
-    private double price;
+    private String contact;
 
-    @Column(name = "created_at")
+    @OneToMany(mappedBy = "barberShop")
+    private List<BarbershopCatalog> services;
+
+    @Column(nullable = false, name = "created_at")
     private Instant createdAt;
 
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    public Catalog() {
-    }
-
-    public Catalog(String serviceId, String name, String slug, String imageUrl, String description, double price, Instant createdAt, Instant updatedAt) {
-        this.serviceId = serviceId;
+    public Barbershop(String id, String name, String slug, String imageUrl, String address, String description, String contact, List<BarbershopCatalog> services, Instant createdAt, Instant updatedAt) {
+        this.id = id;
         this.name = name;
         this.slug = slug;
         this.imageUrl = imageUrl;
+        this.address = address;
         this.description = description;
-        this.price = price;
+        this.contact = contact;
+        this.services = services;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public String getId() {
-        return serviceId;
+    public Barbershop() {
     }
 
-    public void setId(String serviceId) {
-        this.serviceId = serviceId;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -63,14 +72,14 @@ public class Catalog {
         this.name = name;
     }
 
-    public String getSlug() {
-        return slug;
+    public String getAddress() {
+        return address;
     }
 
-    public void setSlug(String slug) {
-        this.slug = slug;
+    public void setAddress(String address) {
+        this.address = address;
     }
-  
+
     public String getDescription() {
         return description;
     }
@@ -79,12 +88,20 @@ public class Catalog {
         this.description = description;
     }
 
-    public double getPrice() {
-        return price;
+    public String getContact() {
+        return contact;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public List<BarbershopCatalog> getServices() {
+        return services;
+    }
+
+    public void setServices(List<BarbershopCatalog> services) {
+        this.services = services;
     }
 
     public Instant getCreatedAt() {
@@ -101,6 +118,14 @@ public class Catalog {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public String getImageUrl() {

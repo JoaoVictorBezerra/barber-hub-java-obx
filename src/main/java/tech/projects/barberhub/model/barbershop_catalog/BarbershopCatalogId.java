@@ -1,4 +1,4 @@
-package tech.projects.barberhub.model.entity.barbershop_catalog;
+package tech.projects.barberhub.model.barbershop_catalog;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

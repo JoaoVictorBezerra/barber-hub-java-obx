@@ -5,14 +5,15 @@ import tech.projects.barberhub.dto.user.ResponseUserDTO;
 import tech.projects.barberhub.exceptions.users.UserAlreadyRegisteredException;
 import tech.projects.barberhub.exceptions.users.UserNotFoundException;
 import tech.projects.barberhub.constants.users.UserConstants;
-import tech.projects.barberhub.model.entity.user.User;
+import tech.projects.barberhub.model.user.User;
 import tech.projects.barberhub.repository.UserRepository;
+import tech.projects.barberhub.service.interfac.UserService;
 
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService  {
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
