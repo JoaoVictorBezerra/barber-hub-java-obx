@@ -1,4 +1,4 @@
-package tech.projects.barberhub.model.entity.catalog;
+package tech.projects.barberhub.model.catalog;
 
 import jakarta.persistence.*;
 
@@ -18,6 +18,9 @@ public class Catalog {
     @Column(nullable = false)
     private String slug;
 
+    @Column(nullable = false, name = "image_url")
+    private String imageUrl;
+
     @Column(nullable = false)
     private String description;
 
@@ -33,10 +36,11 @@ public class Catalog {
     public Catalog() {
     }
 
-    public Catalog(String serviceId, String name, String slug, String description, double price, Instant createdAt, Instant updatedAt) {
+    public Catalog(String serviceId, String name, String slug, String imageUrl, String description, double price, Instant createdAt, Instant updatedAt) {
         this.serviceId = serviceId;
         this.name = name;
         this.slug = slug;
+        this.imageUrl = imageUrl;
         this.description = description;
         this.price = price;
         this.createdAt = createdAt;
@@ -97,5 +101,13 @@ public class Catalog {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

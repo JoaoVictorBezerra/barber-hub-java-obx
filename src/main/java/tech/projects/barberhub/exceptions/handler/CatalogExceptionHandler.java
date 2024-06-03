@@ -19,6 +19,6 @@ public class CatalogExceptionHandler {
 
     @ExceptionHandler(ServiceNotFoundException.class)
     public ResponseEntity<DefaultResponseDTO> handleServiceNotFound(ServiceNotFoundException exception){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(new DefaultResponseDTO(exception.getMessage(), Instant.now()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DefaultResponseDTO(exception.getMessage(), Instant.now()));
     }
 }

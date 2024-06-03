@@ -1,7 +1,7 @@
-package tech.projects.barberhub.model.entity.barbershop;
+package tech.projects.barberhub.model.barbershop;
 
 import jakarta.persistence.*;
-import tech.projects.barberhub.model.entity.barbershop_catalog.BarbershopCatalog;
+import tech.projects.barberhub.model.barbershop_catalog.BarbershopCatalog;
 
 import java.time.Instant;
 import java.util.List;
@@ -18,6 +18,9 @@ public class Barbershop {
 
     @Column(nullable = false)
     private String slug;
+
+    @Column(nullable = false, name = "image_url")
+    private String imageUrl;
 
     @Column(nullable = false)
     private String address;
@@ -37,10 +40,11 @@ public class Barbershop {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    public Barbershop(String id, String name, String slug, String address, String description, String contact, List<BarbershopCatalog> services, Instant createdAt, Instant updatedAt) {
+    public Barbershop(String id, String name, String slug, String imageUrl, String address, String description, String contact, List<BarbershopCatalog> services, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.name = name;
         this.slug = slug;
+        this.imageUrl = imageUrl;
         this.address = address;
         this.description = description;
         this.contact = contact;
@@ -122,5 +126,13 @@ public class Barbershop {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

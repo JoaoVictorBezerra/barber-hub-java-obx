@@ -1,6 +1,7 @@
 package tech.projects.barberhub.controller;
 
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.projects.barberhub.constants.api.Routes;
@@ -9,7 +10,8 @@ import tech.projects.barberhub.dto.DefaultResponseDTO;
 import tech.projects.barberhub.dto.barbershop.AddServiceOnBarbershopDTO;
 import tech.projects.barberhub.dto.barbershop.BarbershopDTO;
 import tech.projects.barberhub.dto.barbershop.CreateBarbershopDTO;
-import tech.projects.barberhub.service.BarbershopService;
+import tech.projects.barberhub.security.annotations.HasAdminRole;
+import tech.projects.barberhub.service.interfac.BarbershopService;
 
 import java.net.URI;
 import java.time.Instant;
@@ -24,8 +26,9 @@ public class BarbershopController {
         this.barberShopService = barberShopService;
     }
 
+    @HasAdminRole
     @PostMapping
-    public ResponseEntity<DefaultResponseDTO> createBarbershop(@RequestBody CreateBarbershopDTO body) {
+    public ResponseEntity<DefaultResponseDTO> createBarbershop(@Valid @RequestBody CreateBarbershopDTO body) {
         String barbershopId = barberShopService.createBarberShop(body);
         return ResponseEntity.created(URI.create("/api/barbershop/" + barbershopId)).body(new DefaultResponseDTO(BarbershopConstants.CREATED, Instant.now()));
     }
@@ -36,9 +39,17 @@ public class BarbershopController {
         return ResponseEntity.ok().body(barbershopList);
     }
 
+    @HasAdminRole
     @PostMapping("/{barbershopId}")
-    public ResponseEntity<DefaultResponseDTO> assignServiceToBarbershop(@PathVariable("barbershopId") String barbershopId,  @RequestBody AddServiceOnBarbershopDTO body) {
+    public ResponseEntity<DefaultResponseDTO> assignServiceToBarbershop(@PathVariable("barbershopId") String barbershopId, @Valid @RequestBody AddServiceOnBarbershopDTO body) {
         barberShopService.assignServiceToBarbershop(barbershopId, body.serviceId());
-        return ResponseEntity.created(URI.create("/api/barbershop/" + barbershopId)).body(new DefaultResponseDTO(BarbershopConstants.CREATED, Instant.now()));
+        return ResponseEntity.created(URI.create("/api/barbershop/" + barbershopId)).body(new DefaultResponseDTO(BarbershopConstants.SERVICE_ASSIGNED, Instant.now()));
+    }
+
+    @HasAdminRole
+    @PutMapping("/{barbershopId}")
+    public ResponseEntity<BarbershopDTO> updateBarbershop(@PathVariable("barbershopId") String barbershopId, @Valid @RequestBody CreateBarbershopDTO body) {
+        BarbershopDTO response = barberShopService.updateBarbershop(barbershopId, body);
+        return ResponseEntity.ok(response);
     }
 }

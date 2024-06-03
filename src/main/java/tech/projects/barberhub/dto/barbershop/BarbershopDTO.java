@@ -9,6 +9,7 @@ public record BarbershopDTO(
         String id,
         String name,
         String slug,
+        String imageUrl,
         String address,
         String description,
         String contact,

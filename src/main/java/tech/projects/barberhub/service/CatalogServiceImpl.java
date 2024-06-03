@@ -8,28 +8,41 @@ import tech.projects.barberhub.exceptions.catalog.ServiceAlreadyRegisteredExcept
 import tech.projects.barberhub.exceptions.catalog.ServiceNotFoundException;
 import tech.projects.barberhub.helpers.StringHelpers;
 import tech.projects.barberhub.mappers.catalog.CatalogMapper;
-import tech.projects.barberhub.model.entity.catalog.Catalog;
+import tech.projects.barberhub.model.catalog.Catalog;
 import tech.projects.barberhub.repository.CatalogRepository;
+import tech.projects.barberhub.service.interfac.CatalogService;
 
 import java.util.List;
 
 @Service
-public class CatalogService {
+public class CatalogServiceImpl implements CatalogService {
     private final CatalogRepository catalogRepository;
 
     CatalogMapper catalogMapper = new CatalogMapper();
   
-    public CatalogService(CatalogRepository catalogRepository) {
+    public CatalogServiceImpl(CatalogRepository catalogRepository) {
         this.catalogRepository = catalogRepository;
     }
 
+    @Override
     public List<Catalog> getAllServices() {
         return catalogRepository.findAll();
     }
+    @Override
     public Catalog findServiceById(String id) {
         return catalogRepository.findById(id).orElseThrow(() -> new ServiceNotFoundException(CatalogConstants.NOT_FOUND));
     }
 
+    @Override
+    public void deleteService(String id) {
+        boolean exists = existsById(id);
+        if(!exists) {
+            throw new ServiceNotFoundException(CatalogConstants.NOT_FOUND);
+        }
+        catalogRepository.deleteById(id);
+    }
+
+    @Override
     public String createService(CreateServiceDTO createServiceDTO) {
         boolean alreadyExist = serviceAlreadyExistsByName(createServiceDTO.name());
         if(alreadyExist) {
@@ -40,11 +53,17 @@ public class CatalogService {
         return service.getId();
     }
 
+    @Override
+    public Catalog updateCatalog(String serviceId, CreateServiceDTO dto) {
+        Catalog entity = findServiceById(serviceId);
+        return catalogMapper.toUpdateEntity(dto, entity);
+    }
+
     private boolean serviceAlreadyExistsByName(String name){
         return catalogRepository.findServicesByName(name).isPresent();
     }
 
-    private boolean serviceAlreadyExistsBySlug(String name){
-        return catalogRepository.findCatalogBySlug(StringHelpers.createSlug(name)).isPresent();
+    private boolean existsById(String id){
+        return catalogRepository.findById(id).isPresent();
     }
 }

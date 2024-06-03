@@ -4,10 +4,9 @@ import tech.projects.barberhub.dto.barbershop.BarbershopDTO;
 import tech.projects.barberhub.dto.barbershop.CreateBarbershopDTO;
 import tech.projects.barberhub.dto.barbershop_catalog.BarbershopCatalogDTO;
 import tech.projects.barberhub.helpers.StringHelpers;
-import tech.projects.barberhub.model.entity.barbershop.Barbershop;
-import tech.projects.barberhub.model.entity.barbershop_catalog.BarbershopCatalog;
+import tech.projects.barberhub.model.barbershop.Barbershop;
+import tech.projects.barberhub.model.barbershop_catalog.BarbershopCatalog;
 
-import java.text.Normalizer;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -18,6 +17,7 @@ public final class BarbershopMapper {
                 barbershop.getId(),
                 barbershop.getName(),
                 barbershop.getSlug(),
+                barbershop.getImageUrl(),
                 barbershop.getAddress(),
                 barbershop.getDescription(),
                 barbershop.getContact(),
@@ -32,6 +32,7 @@ public final class BarbershopMapper {
                 UUID.randomUUID().toString(),
                 dto.name(),
                 StringHelpers.createSlug(dto.name()),
+                dto.imageUrl(),
                 dto.address(),
                 dto.description(),
                 dto.contact(),
@@ -41,24 +42,26 @@ public final class BarbershopMapper {
         );
     }
 
-    public Barbershop toEntityUpdate(BarbershopDTO dto, Barbershop entity) {
+    public Barbershop toEntityUpdate(CreateBarbershopDTO dto, Barbershop entity) {
         Barbershop barbershop = new Barbershop();
         updateFields(dto, entity, barbershop);
         return barbershop;
     }
 
-    private static void updateFields(BarbershopDTO dto, Barbershop entity, Barbershop barbershop) {
+    private static void updateFields(CreateBarbershopDTO dto, Barbershop entity, Barbershop barbershop) {
         barbershop.setId(entity.getId());
         barbershop.setName(dto.name());
         barbershop.setSlug(StringHelpers.createSlug(dto.name()));
+        barbershop.setImageUrl(dto.imageUrl());
         barbershop.setAddress(dto.address());
         barbershop.setDescription(dto.description());
         barbershop.setContact(dto.contact());
+        barbershop.setServices(entity.getServices());
         barbershop.setCreatedAt(entity.getCreatedAt());
         barbershop.setUpdatedAt(Instant.now());
     }
 
-    private List<BarbershopCatalogDTO> toCatalogList(List<BarbershopCatalog> barbershopCatalog) {
+   private List<BarbershopCatalogDTO> toCatalogList(List<BarbershopCatalog> barbershopCatalog) {
         return barbershopCatalog.stream().map(this::toCatalogDTO).toList();
     }
 
@@ -66,6 +69,7 @@ public final class BarbershopMapper {
         return new BarbershopCatalogDTO(
                 barbershopCatalog.getServices().getName(),
                 barbershopCatalog.getServices().getDescription(),
+                barbershopCatalog.getServices().getImageUrl(),
                 barbershopCatalog.getServices().getPrice()
         );
     }

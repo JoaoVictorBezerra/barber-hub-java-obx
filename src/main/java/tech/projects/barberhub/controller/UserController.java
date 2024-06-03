@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tech.projects.barberhub.dto.user.ResponseUserDTO;
-import tech.projects.barberhub.service.UserService;
+import tech.projects.barberhub.service.interfac.UserService;
 
 @RestController
 @RequestMapping("/api/users")

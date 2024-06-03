@@ -1,8 +1,8 @@
 package tech.projects.barberhub.mappers.user;
 
 import tech.projects.barberhub.dto.authentication.RequestRegisterDTO;
-import tech.projects.barberhub.model.entity.user.User;
-import tech.projects.barberhub.model.entity.user.UserRole;
+import tech.projects.barberhub.model.user.User;
+import tech.projects.barberhub.model.user.UserRole;
 
 import java.time.Instant;
 import java.util.UUID;
