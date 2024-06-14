@@ -6,6 +6,7 @@ import tech.projects.barberhub.model.user.User;
 public interface UserService {
     ResponseUserDTO getUserById(String id);
     User getUserByEmail(String email);
+    User getUserEntityById(String id);
     void saveUser(User userEntity);
     void deleteUser(String id);
 }
