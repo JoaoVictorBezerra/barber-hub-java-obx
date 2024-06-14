@@ -9,6 +9,7 @@ import tech.projects.barberhub.constants.barbershop.BarbershopConstants;
 import tech.projects.barberhub.dto.DefaultResponseDTO;
 import tech.projects.barberhub.dto.barbershop.AddServiceOnBarbershopDTO;
 import tech.projects.barberhub.dto.barbershop.BarbershopDTO;
+import tech.projects.barberhub.dto.barbershop.BarbershopDetailDTO;
 import tech.projects.barberhub.dto.barbershop.CreateBarbershopDTO;
 import tech.projects.barberhub.security.annotations.HasAdminRole;
 import tech.projects.barberhub.service.interfac.BarbershopService;
@@ -51,5 +52,11 @@ public class BarbershopController {
     public ResponseEntity<BarbershopDTO> updateBarbershop(@PathVariable("barbershopId") String barbershopId, @Valid @RequestBody CreateBarbershopDTO body) {
         BarbershopDTO response = barberShopService.updateBarbershop(barbershopId, body);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/detail/{barbershopId}")
+    public ResponseEntity<BarbershopDetailDTO> getBarbershopDetail(@PathVariable("barbershopId") String id) {
+        BarbershopDetailDTO detailDTO = barberShopService.getBarbershopDetail(id);
+        return ResponseEntity.ok(detailDTO);
     }
 }

@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import tech.projects.barberhub.exceptions.security.InvalidTokenException;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -41,7 +42,7 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException exception) {
-            throw new RuntimeException("Invalid token");
+            throw new InvalidTokenException("Invalid token");
         }
     }
 

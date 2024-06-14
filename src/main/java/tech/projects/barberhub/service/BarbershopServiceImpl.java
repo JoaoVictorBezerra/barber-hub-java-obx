@@ -3,7 +3,9 @@ package tech.projects.barberhub.service;
 import org.springframework.stereotype.Service;
 import tech.projects.barberhub.constants.barbershop.BarbershopConstants;
 import tech.projects.barberhub.dto.barbershop.BarbershopDTO;
+import tech.projects.barberhub.dto.barbershop.BarbershopDetailDTO;
 import tech.projects.barberhub.dto.barbershop.CreateBarbershopDTO;
+import tech.projects.barberhub.exceptions.barbershop.BarbershopAlreadyRegisteredException;
 import tech.projects.barberhub.exceptions.barbershop.BarbershopNotFoundException;
 import tech.projects.barberhub.mappers.barbershop.BarbershopMapper;
 import tech.projects.barberhub.model.barbershop.Barbershop;
@@ -14,6 +16,7 @@ import tech.projects.barberhub.service.interfac.BarbershopService;
 import tech.projects.barberhub.service.interfac.CatalogService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BarbershopServiceImpl implements BarbershopService {
@@ -33,7 +36,7 @@ public class BarbershopServiceImpl implements BarbershopService {
     public List<BarbershopDTO> getBarberShops() {
         List<Barbershop> barbershopList = barbershopRepository.findAll();
         return barbershopList.stream().map(
-                barbershop -> barbershopMapper.toDto(barbershop)
+              barbershop -> barbershopMapper.toDto(barbershop)
         ).toList();
     }
 
@@ -44,8 +47,17 @@ public class BarbershopServiceImpl implements BarbershopService {
     }
 
     @Override
+    public Barbershop getBarbershopEntityById(String id) {
+        return findBarbershopById(id);
+    }
+
+    @Override
     public String createBarberShop(CreateBarbershopDTO dto) {
         Barbershop barberShop = barbershopMapper.toEntity(dto);
+        Optional<Barbershop> slug = barbershopRepository.findBySlug(barberShop.getSlug());
+        if(slug.isPresent()) {
+            throw new BarbershopAlreadyRegisteredException(BarbershopConstants.ALREADY_EXISTS);
+        }
         barbershopRepository.save(barberShop);
         return barberShop.getId();
     }
@@ -65,7 +77,17 @@ public class BarbershopServiceImpl implements BarbershopService {
         return barbershopMapper.toDto(updatedEntity);
     }
 
+    @Override
+    public BarbershopDetailDTO getBarbershopDetail(String id) {
+        Barbershop barbershop = findBarbershopById(id);
+        return barbershopMapper.toDetailDto(barbershop);
+    }
+
     private Barbershop findBarbershopById(String id) {
         return barbershopRepository.findById(id).orElseThrow(() -> new BarbershopNotFoundException(BarbershopConstants.NOT_FOUND));
+    }
+
+    private Optional<Barbershop> findBySlug(String slug) {
+        return barbershopRepository.findBySlug(slug);
     }
 }

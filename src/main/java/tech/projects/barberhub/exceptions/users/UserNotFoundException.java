@@ -1,7 +1,21 @@
 package tech.projects.barberhub.exceptions.users;
 
-public class UserNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import tech.projects.barberhub.exceptions.BusinessException;
+
+public class UserNotFoundException extends BusinessException {
+private final String message;
+
     public UserNotFoundException(String message) {
-        super(message);
+        this.message = message;
+    }
+
+    @Override
+    public ProblemDetail toProblemDetail() {
+        var problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setTitle("User not found.");
+        problemDetail.setDetail(message);
+        return problemDetail;
     }
 }
