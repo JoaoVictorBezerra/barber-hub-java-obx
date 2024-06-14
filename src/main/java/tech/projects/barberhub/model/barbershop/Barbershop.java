@@ -2,6 +2,7 @@ package tech.projects.barberhub.model.barbershop;
 
 import jakarta.persistence.*;
 import tech.projects.barberhub.model.barbershop_catalog.BarbershopCatalog;
+import tech.projects.barberhub.model.schedule.Schedule;
 
 import java.time.Instant;
 import java.util.List;
@@ -34,13 +35,16 @@ public class Barbershop {
     @OneToMany(mappedBy = "barberShop")
     private List<BarbershopCatalog> services;
 
+    @OneToMany(mappedBy = "barbershopId")
+    private List<Schedule> schedules;
+
     @Column(nullable = false, name = "created_at")
     private Instant createdAt;
 
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    public Barbershop(String id, String name, String slug, String imageUrl, String address, String description, String contact, List<BarbershopCatalog> services, Instant createdAt, Instant updatedAt) {
+    public Barbershop(String id, String name, String slug, String imageUrl, String address, String description, String contact, List<BarbershopCatalog> services, List<Schedule> schedules, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.name = name;
         this.slug = slug;
@@ -49,6 +53,7 @@ public class Barbershop {
         this.description = description;
         this.contact = contact;
         this.services = services;
+        this.schedules = schedules;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -134,5 +139,13 @@ public class Barbershop {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public List<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules = schedules;
     }
 }

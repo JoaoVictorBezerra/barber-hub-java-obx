@@ -7,4 +7,5 @@ public class Routes {
     public static final String AUTHENTICATION = "/api/auth";
     public static final String CATALOG = "/api/catalog";
     public static final String BARBERSHOP = "/api/barbershop";
+    public static final String SCHEDULE = "/api/schedule";
 }
