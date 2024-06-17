@@ -45,7 +45,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         ZonedDateTime zonedDateTime = dto.date().atZone(ZoneOffset.UTC);
         Instant actualMoment = Instant.now();
 
-        if(actualMoment.isBefore(dto.date())) {
+        if(actualMoment.isAfter(dto.date())) {
             throw new ScheduledOnIncorrectTimeException(ScheduleConstants.INCORRECT_TIME);
         }
 
