@@ -81,6 +81,7 @@ public final class BarbershopMapper {
 
     private BarbershopCatalogDTO toCatalogDTO(BarbershopCatalog barbershopCatalog) {
         return new BarbershopCatalogDTO(
+              barbershopCatalog.getServices().getId(),
               barbershopCatalog.getServices().getName(),
               barbershopCatalog.getServices().getDescription(),
               barbershopCatalog.getServices().getImageUrl(),
