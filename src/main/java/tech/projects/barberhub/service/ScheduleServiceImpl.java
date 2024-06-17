@@ -69,8 +69,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleResponseDTO> getScheduleByUserId(String userId) {
-        User user = userService.getUserEntityById(userId);
+    public List<ScheduleResponseDTO> getScheduleByUserEmail(String email) {
+        User user = userService.getUserByEmail(email);
         List<Schedule> scheduleList = scheduleRepository.findScheduleByUserId(user);
         return scheduleList.stream().map(scheduleMapper::toDto).toList();
     }
