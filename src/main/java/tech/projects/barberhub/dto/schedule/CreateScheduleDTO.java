@@ -4,7 +4,7 @@ import java.time.Instant;
 
 public record CreateScheduleDTO(
       String barbershopId,
-      String userId,
+      String email,
       String serviceId,
       Instant date
 ) {

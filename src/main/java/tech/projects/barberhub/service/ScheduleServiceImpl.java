@@ -19,6 +19,7 @@ import tech.projects.barberhub.service.interfac.ScheduleService;
 import tech.projects.barberhub.service.interfac.UserService;
 
 import java.time.DayOfWeek;
+import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -42,6 +43,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleResponseDTO createSchedule(CreateScheduleDTO dto) {
         Schedule schedule = buildScheduleEntity(dto);
         ZonedDateTime zonedDateTime = dto.date().atZone(ZoneOffset.UTC);
+        Instant actualMoment = Instant.now();
+
+        if(actualMoment.isBefore(dto.date())) {
+            throw new ScheduledOnIncorrectTimeException(ScheduleConstants.INCORRECT_TIME);
+        }
 
         if (zonedDateTime.getMinute() != 30 && zonedDateTime.getMinute() != 0) {
             throw new ScheduledOnIncorrectTimeException(ScheduleConstants.INCORRECT_TIME);
@@ -85,7 +91,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private Schedule buildScheduleEntity(CreateScheduleDTO dto) {
         Barbershop barbershop = barbershopService.getBarbershopEntityById(dto.barbershopId());
         Catalog service = catalogService.findServiceById(dto.serviceId());
-        User user = userService.getUserEntityById(dto.userId());
+        User user = userService.getUserByEmail(dto.email());
         return scheduleMapper.toEntity(dto, barbershop, service, user);
     }
 }
