@@ -8,7 +8,7 @@ import java.util.List;
 public interface ScheduleService {
     ScheduleResponseDTO createSchedule(CreateScheduleDTO dto);
 
-    List<ScheduleResponseDTO> getScheduleByUserId(String userId);
+    List<ScheduleResponseDTO> getScheduleByUserEmail(String userId);
 
     List<ScheduleResponseDTO> getScheduleByBarbershopId(String barbershopId);
 }

@@ -17,7 +17,7 @@ public class Barbershop {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String slug;
 
     @Column(nullable = false, name = "image_url")

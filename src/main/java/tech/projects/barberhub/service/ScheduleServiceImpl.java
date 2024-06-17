@@ -20,6 +20,7 @@ import tech.projects.barberhub.service.interfac.UserService;
 
 import java.time.DayOfWeek;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -40,14 +41,17 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleResponseDTO createSchedule(CreateScheduleDTO dto) {
         Schedule schedule = buildScheduleEntity(dto);
-        int scheduledMinute = dto.date().atZone(ZoneOffset.UTC).getMinute();
-        String scheduledDay = dto.date().atZone(ZoneOffset.UTC).getDayOfWeek().name();
+        ZonedDateTime zonedDateTime = dto.date().atZone(ZoneOffset.UTC);
 
-        if (scheduledMinute != 30 && scheduledMinute != 0) {
+        if (zonedDateTime.getMinute() != 30 && zonedDateTime.getMinute() != 0) {
             throw new ScheduledOnIncorrectTimeException(ScheduleConstants.INCORRECT_TIME);
         }
 
-        if(scheduledDay.equals(DayOfWeek.SUNDAY.name())) {
+        if (zonedDateTime.getHour() < 9 || zonedDateTime.getHour() > 21) {
+            throw new ScheduledOnBarbershopClosedException(ScheduleConstants.BARBERSHOP_CLOSED);
+        }
+
+        if (zonedDateTime.getDayOfWeek().name().equals(DayOfWeek.SUNDAY.name())) {
             throw new ScheduledOnBarbershopClosedException(ScheduleConstants.BARBERSHOP_CLOSED);
         }
 
@@ -65,8 +69,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleResponseDTO> getScheduleByUserId(String userId) {
-        User user = userService.getUserEntityById(userId);
+    public List<ScheduleResponseDTO> getScheduleByUserEmail(String email) {
+        User user = userService.getUserByEmail(email);
         List<Schedule> scheduleList = scheduleRepository.findScheduleByUserId(user);
         return scheduleList.stream().map(scheduleMapper::toDto).toList();
     }

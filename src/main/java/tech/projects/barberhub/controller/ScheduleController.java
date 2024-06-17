@@ -26,9 +26,9 @@ public class ScheduleController {
         return ResponseEntity.created(URI.create("/api/schedule/" + createdSchedule.id())).build();
     }
 
-    @GetMapping("/user/{id}")
-    ResponseEntity<List<ScheduleResponseDTO>> getScheduleListByUserId(@PathVariable("id") String id) {
-        List<ScheduleResponseDTO> scheduleList = scheduleService.getScheduleByUserId(id);
+    @GetMapping("/user/{email}")
+    ResponseEntity<List<ScheduleResponseDTO>> getScheduleListByUserId(@PathVariable("email") String email) {
+        List<ScheduleResponseDTO> scheduleList = scheduleService.getScheduleByUserEmail(email);
         return ResponseEntity.ok(scheduleList);
     }
 
