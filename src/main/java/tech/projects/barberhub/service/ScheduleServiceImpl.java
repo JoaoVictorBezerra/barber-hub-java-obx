@@ -42,56 +42,80 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleResponseDTO createSchedule(CreateScheduleDTO dto) {
         Schedule schedule = buildScheduleEntity(dto);
-        ZonedDateTime zonedDateTime = dto.date().atZone(ZoneOffset.UTC);
-        Instant actualMoment = Instant.now();
-
-        if(actualMoment.isAfter(dto.date())) {
-            throw new ScheduledOnIncorrectTimeException(ScheduleConstants.INCORRECT_TIME);
-        }
-
-        if (zonedDateTime.getMinute() != 30 && zonedDateTime.getMinute() != 0) {
-            throw new ScheduledOnIncorrectTimeException(ScheduleConstants.INCORRECT_TIME);
-        }
-
-        if (zonedDateTime.getHour() < 9 || zonedDateTime.getHour() > 21) {
-            throw new ScheduledOnBarbershopClosedException(ScheduleConstants.BARBERSHOP_CLOSED);
-        }
-
-        if (zonedDateTime.getDayOfWeek().name().equals(DayOfWeek.SUNDAY.name())) {
-            throw new ScheduledOnBarbershopClosedException(ScheduleConstants.BARBERSHOP_CLOSED);
-        }
-
-        boolean alreadyScheduled = schedule.getBarbershopId()
-              .getSchedules()
-              .stream()
-              .anyMatch(p0 -> p0.getDate().equals(dto.date()));
-
-        if (alreadyScheduled) {
-            throw new ScheduledOnUnavailableTimeException(ScheduleConstants.ALREADY_SCHEDULED);
-        }
-
+        validateScheduleTime(dto.date());
+        verifyIfScheduleAlreadyExists(schedule, dto.date());
         scheduleRepository.save(schedule);
         return scheduleMapper.toDto(schedule);
     }
 
+
     @Override
     public List<ScheduleResponseDTO> getScheduleByUserEmail(String email) {
-        User user = userService.getUserByEmail(email);
+        User user = getUser(email);
         List<Schedule> scheduleList = scheduleRepository.findScheduleByUserId(user);
         return scheduleList.stream().map(scheduleMapper::toDto).toList();
     }
 
     @Override
     public List<ScheduleResponseDTO> getScheduleByBarbershopId(String barbershopId) {
-        Barbershop user = barbershopService.getBarbershopEntityById(barbershopId);
+        Barbershop user = getBarbershop(barbershopId);
         List<Schedule> scheduleList = scheduleRepository.findScheduleByBarbershopId(user);
         return scheduleList.stream().map(scheduleMapper::toDto).toList();
     }
 
     private Schedule buildScheduleEntity(CreateScheduleDTO dto) {
-        Barbershop barbershop = barbershopService.getBarbershopEntityById(dto.barbershopId());
-        Catalog service = catalogService.findServiceById(dto.serviceId());
-        User user = userService.getUserByEmail(dto.email());
+        Barbershop barbershop = getBarbershop(dto.barbershopId());
+        Catalog service = getService(dto.serviceId());
+        User user = getUser(dto.email());
         return scheduleMapper.toEntity(dto, barbershop, service, user);
+    }
+
+    private Barbershop getBarbershop(String barbershopId) {
+        return barbershopService.getBarbershopEntityById(barbershopId);
+    }
+
+    private Catalog getService(String serviceId) {
+        return catalogService.findServiceById(serviceId);
+    }
+
+    private User getUser(String email) {
+        return userService.getUserByEmail(email);
+    }
+
+    private void validateScheduleTime(Instant datetime) {
+        ZonedDateTime zonedDateTime = datetime.atZone(ZoneOffset.UTC);
+        Instant actualMoment = Instant.now();
+
+        boolean beforeCurrentDate = actualMoment.isAfter(datetime);
+        boolean incorrectTime = zonedDateTime.getMinute() != 30 && zonedDateTime.getMinute() != 0;
+        boolean timeOutOfRange = zonedDateTime.getHour() < 9 || zonedDateTime.getHour() > 21;
+        boolean closedDay = zonedDateTime.getDayOfWeek().name().equals(DayOfWeek.SUNDAY.name());
+
+        if(beforeCurrentDate) {
+            throw new ScheduledOnIncorrectTimeException(ScheduleConstants.BEFORE_CURRENT_DATE);
+        }
+
+        if (incorrectTime) {
+            throw new ScheduledOnIncorrectTimeException(ScheduleConstants.INCORRECT_TIME);
+        }
+
+        if (timeOutOfRange) {
+            throw new ScheduledOnBarbershopClosedException(ScheduleConstants.BARBERSHOP_CLOSED);
+        }
+
+        if (closedDay) {
+            throw new ScheduledOnBarbershopClosedException(ScheduleConstants.BARBERSHOP_CLOSED);
+        }
+    }
+
+    private void verifyIfScheduleAlreadyExists(Schedule schedule, Instant date) {
+        boolean alreadyScheduled = schedule.getBarbershopId()
+              .getSchedules()
+              .stream()
+              .anyMatch(p0 -> p0.getDate().equals(date));
+
+        if (alreadyScheduled) {
+            throw new ScheduledOnUnavailableTimeException(ScheduleConstants.ALREADY_SCHEDULED);
+        }
     }
 }

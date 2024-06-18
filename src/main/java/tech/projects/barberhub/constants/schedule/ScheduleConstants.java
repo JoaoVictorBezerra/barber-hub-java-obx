@@ -9,6 +9,7 @@ public class ScheduleConstants {
     public static final String BARBERSHOP_CLOSED = "Barbershop already closed on this time. Please, try soon.";
     public static final String ALREADY_SCHEDULED = "A service is already scheduled on this time.";
     public static final String INCORRECT_TIME = "Services only can be scheduled on half or o'clock time.";
+    public static final String BEFORE_CURRENT_DATE = "Isn't possible to schedule a service before current date.";
 
 
 }
