@@ -1,5 +1,6 @@
 package tech.projects.barberhub.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.projects.barberhub.constants.api.Routes;
@@ -12,7 +13,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(Routes.SCHEDULE)
+@RequestMapping(value = Routes.SCHEDULE, consumes = MediaType.APPLICATION_JSON_VALUE)
 public class ScheduleController {
     private final ScheduleService scheduleService;
 
